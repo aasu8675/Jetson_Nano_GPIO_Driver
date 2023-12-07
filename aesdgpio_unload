@@ -1,6 +1,6 @@
 #!/bin/sh
-module=aesdgpio
-device=aesdgpio
+module=gpio_driver
+device=gpio_driver
 cd `dirname $0`
 # invoke rmmod with all arguments we got
 rmmod $module || exit 1

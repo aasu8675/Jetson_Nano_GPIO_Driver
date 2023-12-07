@@ -1,6 +1,6 @@
 #!/bin/sh
-module=aesdgpio
-device=aesdgpio
+module=gpio_driver
+device=gpio_driver
 mode="664"
 cd `dirname $0`
 set -e
