@@ -20,8 +20,8 @@
 #include <linux/gpio.h>     //GPIO
 #include <linux/err.h>
 
-//LED is connected to this GPIO
-#define GPIO_BUZZER_37 (37)
+//Buzzer is connected to this GPIO
+#define GPIO_BUZZER_79 (79)
  
 dev_t dev = 0;
 static struct class *dev_class;
@@ -77,7 +77,7 @@ static ssize_t etx_read(struct file *filp,
   uint8_t gpio_state = 0;
   
   //reading GPIO value
-  gpio_state = gpio_get_value(GPIO_BUZZER_37);
+  gpio_state = gpio_get_value(GPIO_BUZZER_79);
   
   //write to user
   len = 1;
@@ -85,7 +85,7 @@ static ssize_t etx_read(struct file *filp,
     pr_err("ERROR: Not all the bytes have been copied to user\n");
   }
   
-  pr_info("Read function : GPIO_BUZZER_37 = %d \n", gpio_state);
+  pr_info("Read function : GPIO_BUZZER_79 = %d \n", gpio_state);
   
   return 0;
 }
@@ -102,14 +102,14 @@ static ssize_t etx_write(struct file *filp,
     pr_err("ERROR: Not all the bytes have been copied from user\n");
   }
   
-  pr_info("Write Function : GPIO_BUZZER_37 Set = %c\n", rec_buf[0]);
+  pr_info("Write Function : GPIO_BUZZER_79 Set = %c\n", rec_buf[0]);
   
   if (rec_buf[0]=='1') {
     //set the GPIO value to HIGH
-    gpio_set_value(GPIO_BUZZER_37, 1);
+    gpio_set_value(GPIO_BUZZER_79, 1);
   } else if (rec_buf[0]=='0') {
     //set the GPIO value to LOW
-    gpio_set_value(GPIO_BUZZER_37, 0);
+    gpio_set_value(GPIO_BUZZER_79, 0);
   } else {
     pr_err("Unknown command : Please provide either 1 or 0 \n");
   }
@@ -151,29 +151,29 @@ static int __init etx_driver_init(void)
   }
   
   //Checking the GPIO is valid or not
-  if(gpio_is_valid(GPIO_BUZZER_37) == false){
-    pr_err("GPIO %d is not valid\n", GPIO_BUZZER_37);
+  if(gpio_is_valid(GPIO_BUZZER_79) == false){
+    pr_err("GPIO %d is not valid\n", GPIO_BUZZER_79);
     goto r_device;
   }
   
   //Requesting the GPIO
-  if(gpio_request(GPIO_BUZZER_37,"GPIO_BUZZER_37") < 0){
-    pr_err("ERROR: GPIO %d request\n", GPIO_BUZZER_37);
+  if(gpio_request(GPIO_BUZZER_79,"GPIO_BUZZER_79") < 0){
+    pr_err("ERROR: GPIO %d request\n", GPIO_BUZZER_79);
     goto r_gpio;
   }
   
   //configure the GPIO as output
-  gpio_direction_output(GPIO_BUZZER_37, 0);
+  gpio_direction_output(GPIO_BUZZER_79, 0);
   
-  /* Using this call the GPIO 37 will be visible in /sys/class/gpio/
+  /* Using this call the GPIO 79 will be visible in /sys/class/gpio/
   ** Now you can change the gpio values by using below commands also.
-  ** echo 1 > /sys/class/gpio/gpio37/value  (turn ON the LED)
-  ** echo 0 > /sys/class/gpio/gpio37/value  (turn OFF the LED)
-  ** cat /sys/class/gpio/gpio37/value  (read the value LED)
+  ** echo 1 > /sys/class/gpio/gpio79/value  (turn ON the LED)
+  ** echo 0 > /sys/class/gpio/gpio79/value  (turn OFF the LED)
+  ** cat /sys/class/gpio/gpio79/value  (read the value LED)
   ** 
   ** the second argument prevents the direction from being changed.
   */
-  gpio_export(GPIO_BUZZER_37, false);
+  gpio_export(GPIO_BUZZER_79, false);
   
   pr_info("Device Driver Insert...Done!!!\n");
   return 0;
@@ -197,8 +197,8 @@ r_unreg:
 */ 
 static void __exit etx_driver_exit(void)
 {
-  gpio_unexport(GPIO_BUZZER_37);
-  gpio_free(GPIO_BUZZER_37);
+  gpio_unexport(GPIO_BUZZER_79);
+  gpio_free(GPIO_BUZZER_79);
   device_destroy(dev_class,dev);
   class_destroy(dev_class);
   cdev_del(&etx_cdev);
