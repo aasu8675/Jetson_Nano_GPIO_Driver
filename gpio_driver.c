@@ -179,7 +179,7 @@ static int __init etx_driver_init(void)
   return 0;
  
 r_gpio:
-  gpio_free(GPIO_BUZZER_37);
+  gpio_free(GPIO_BUZZER_79);
 r_device:
   device_destroy(dev_class,dev);
 r_class:
